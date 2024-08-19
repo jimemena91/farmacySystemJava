@@ -67,7 +67,7 @@ public class EmployeesDao {
 
     //registrar empleados
     public boolean registerEmployeeQuery(Employees employee) {
-        String query = "INSERT INTO employees(id, full_name, username, address, telephone, email, password, rol, created" 
+        String query = "INSERT INTO employees(id, full_name, username, address, telephone, email, password, rol, created," 
                 + "update) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Timestamp datetime = new Timestamp(new Date().getTime());
         

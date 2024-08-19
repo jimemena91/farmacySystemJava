@@ -10,14 +10,14 @@ import views.SystemView;
 
 public class EmployeesController implements ActionListener {
     private Employees employee;
-    private EmployeesDao employeesDao;
+    private EmployeesDao employeeDao;
     private SystemView views;
         //Rol
     String rol = rol_user;
 
     public EmployeesController(Employees employee, EmployeesDao employeesDao, SystemView views) {
         this.employee = employee;
-        this.employeesDao = employeesDao;
+        this.employeeDao = employeeDao;
         this.views = views;
         //boton de registrar empleado
         this.views.btn_register_employee.addActionListener(this);
@@ -46,6 +46,12 @@ public class EmployeesController implements ActionListener {
            employee.setEmail(views.txt_employee_email.getText().trim());
            employee.setPassword(String.valueOf(views.txt_employee_password.getPassword()));
            employee.setRol(views.cmb_rol.getSelectedItem().toString());
+           
+           if(employeeDao.registerEmployeeQuery(employee)){
+           JOptionPane.showMessageDialog(null, "Empleado registrado con exito");
+           } else {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error al registrar al empleado");
+           }
            }
     }
     }
