@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.Employees;
 import models.EmployeesDao;
+import static models.EmployeesDao.id_user;
 import static models.EmployeesDao.rol_user;
 import views.SystemView;
 
@@ -31,6 +32,10 @@ public class EmployeesController implements ActionListener, MouseListener, KeyLi
         this.views.btn_register_employee.addActionListener(this);
         //boton de modificar empleado
         this.views.btn_update_employee.addActionListener(this);
+        //boton de eliminar empleado
+        this.views.btn_delete_employee.addActionListener(this);
+        //boton de cancelar
+        this.views.btn_cancel_employee.addActionListener(this);
         this.views.employees_table.addMouseListener(this);
         this.views.txt_search_employee.addKeyListener(this);
     }
@@ -99,6 +104,32 @@ public class EmployeesController implements ActionListener, MouseListener, KeyLi
                     }
                 }
             }
+        } else if(e.getSource()== views.btn_delete_employee){
+        int row = views.employees_table.getSelectedRow();
+        
+        if(row == -1){
+        JOptionPane.showMessageDialog(null, "Debes seleccionar un empleado para eliminar");
+        } else if (views.employees_table.getValueAt(row, 0).equals(id_user)){
+            JOptionPane.showMessageDialog(null, "No puede eliminar autenticado");
+        } else {
+        int id = Integer.parseInt(views.employees_table.getValueAt(row, 0).toString());
+        int question = JOptionPane.showConfirmDialog(null, "¿En realidad queres eliminar a este empleado?");
+        
+        if(question == 0 && employeeDao.deleteEmployeeQuery(id) != false){
+            cleanTable();
+        cleanFields();
+        views.btn_register_employee.setEnabled(true);
+        views.txt_employee_password.setEnabled(true);
+        listAllEmployees();
+        JOptionPane.showMessageDialog(null, "Empleado eliminado con exito");
+        }
+        }
+        } else if(e.getSource() == views.btn_cancel_employee){
+        cleanFields();
+        views.btn_register_employee.setEnabled(true);
+        views.txt_employee_password.setEnabled(true);
+        views.txt_employee_id.setEditable(true);
+        
         }
 
     }
